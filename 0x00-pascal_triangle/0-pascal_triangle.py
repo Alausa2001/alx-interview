@@ -1,4 +1,7 @@
 #!/usr/bin/python3
+"""pascal triangle"""
+
+
 def pascal_triangle(n):
     """
     This function generates a pascal
@@ -6,7 +9,7 @@ def pascal_triangle(n):
     to be generated
     """
     super_array = []
-    if n == 0:
+    if n <= 0:
         return super_array
     for i in range(0, n):
         sub_array = []

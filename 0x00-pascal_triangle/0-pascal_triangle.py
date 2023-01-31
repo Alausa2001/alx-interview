@@ -7,10 +7,10 @@ def pascal_triangle(n):
     This function generates a pascal
     triangle where nis the number of rows
     to be generated
+    Logic: The whole triangle is seen as a super array
+    while the rows are sub arrays in the super array(the triangle)
     """
     super_array = []
-    if n <= 0:
-        return super_array
     for i in range(0, n):
         sub_array = []
         if len(super_array) != 0:

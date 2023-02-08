@@ -24,8 +24,6 @@ def minOperations(n):
     reach a target length of a character if only one of that
     character is provided and all you can do is copy all and paste
     """
-    if n <= 1:
-        return 0
     var = 'H'
     target = n * 'H'
     prev = 'None'
@@ -35,11 +33,11 @@ def minOperations(n):
             pre = var
             var *= 2
             ops += 2
-        if len(target) % len(var) == 0:
+        if len(target) % len(var) == 0 and n > 0:
             pre = var
             var *= 2
             ops += 2
-        elif len(target) % len(var) != 0:
+        elif len(target) % len(var) != 0 and n > 0:
             var += pre
             ops += 1
     return ops

@@ -29,15 +29,11 @@ def minOperations(n):
     prev = 'None'
     ops = 0
     while len(var) < len(target):
-        if len(var) == 1:
+        if len(target) % len(var) == 0:
             pre = var
             var *= 2
             ops += 2
-        if len(target) % len(var) == 0 and n > 0:
-            pre = var
-            var *= 2
-            ops += 2
-        elif len(target) % len(var) != 0 and n > 0:
+        elif len(target) % len(var) != 0:
             var += pre
             ops += 1
     return ops

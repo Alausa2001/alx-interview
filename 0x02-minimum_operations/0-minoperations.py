@@ -24,16 +24,16 @@ def minOperations(n):
     reach a target length of a character if only one of that
     character is provided and all you can do is copy all and paste
     """
-    chars = 'H'
-    target = n * 'H'
-    last_copy_op = ''
+    chars = 1
+    # target = n * 'H'
+    last_copy_op = int()
     no_ops = 0
-    while len(chars) < len(target):
-        if len(target) % len(chars) == 0:
+    while chars < n:
+        if n % chars == 0:
             last_copy_op = chars
             chars *= 2
             no_ops += 2
-        if len(target) % len(chars) != 0:
+        if n % chars != 0:
             chars += last_copy_op
             no_ops += 1
     return no_ops

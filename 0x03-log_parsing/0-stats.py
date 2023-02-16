@@ -44,16 +44,13 @@ def log_parsing():
                 for key, val in status_count.items():
                     if val != 0:
                         print("{}: {}".format(key, val))
-        print("File size: {}".format(sum(file_size)))
-        for key, val in status_count.items():
-            if val != 0:
-                print("{}: {}".format(key, val))
     except KeyboardInterrupt:
+        pass
+    finally:
         print("File size: {}".format(sum(file_size)))
         for key, val in status_count.items():
             if val != 0:
                 print("{}: {}".format(key, val))
-        raise
 
 
 if __name__ == "__main__":

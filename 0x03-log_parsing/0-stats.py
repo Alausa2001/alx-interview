@@ -20,7 +20,6 @@ script that reads stdin line by line and computes metrics:
             status codes should be printed in ascending order
 """
 import sys
-import re
 
 
 def log_parsing():
@@ -32,13 +31,13 @@ def log_parsing():
     status = None
     try:
         for line in sys.stdin:
-            count += 1
             line = line.split()
             status = line[-2]
             size = line[-1]
             if status in status_count.keys():
                 status_count[status] += 1
                 file_size.append(int(size))
+            count += 1
             if count == 10:
                 count = 0
                 print("File size: {}".format(sum(file_size)))

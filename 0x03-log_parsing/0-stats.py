@@ -25,7 +25,7 @@ import re
 
 def log_parsing():
     """gets infomation from logs"""
-    codes = ['200', '301', '400', '401', '403', '404', '405', '500']
+    codes = [200, 301, 400, 401, 403, 404, 405, 500]
     status_count = {status: 0 for status in codes}
     file_size = []
     count = 0
@@ -34,7 +34,7 @@ def log_parsing():
         for line in sys.stdin:
             count += 1
             search = re.search('GET .* (.*) (.*)', line)
-            status = search.group(1)
+            status = int(search.group(1))
             if status in status_count.keys():
                 status_count[status] += 1
                 file_size.append(int(search.group(2)))

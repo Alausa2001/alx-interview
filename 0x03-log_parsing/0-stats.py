@@ -42,14 +42,14 @@ def log_parsing():
             if count == 10:
                 count = 0
                 print("File size: {}".format(file_size))
-                for key, val in status_count.items():
+                for key, val in sorted(status_count.items()):
                     if val != 0:
                         print("{}: {}".format(key, val))
     except KeyboardInterrupt:
         pass
     finally:
         print("File size: {}".format(file_size))
-        for key, val in status_count.items():
+        for key, val in sorted(status_count.items()):
             if val != 0:
                 print("{}: {}".format(key, val))
 

@@ -26,7 +26,7 @@ def log_parsing():
     """gets infomation from logs"""
     codes = ['200', '301', '400', '401', '403', '404', '405', '500']
     status_count = {status: 0 for status in codes}
-    file_size = []
+    file_size = 0
     count = 0
     status = None
     try:
@@ -37,18 +37,18 @@ def log_parsing():
                 size = line[-1]
             if status in status_count.keys():
                 status_count[status] += 1
-                file_size.append(int(size))
+            file_size += int(size)
             count += 1
             if count == 10:
                 count = 0
-                print("File size: {}".format(sum(file_size)))
+                print("File size: {}".format(file_size))
                 for key, val in status_count.items():
                     if val != 0:
                         print("{}: {}".format(key, val))
     except KeyboardInterrupt:
         pass
     finally:
-        print("File size: {}".format(sum(file_size)))
+        print("File size: {}".format(file_size))
         for key, val in status_count.items():
             if val != 0:
                 print("{}: {}".format(key, val))

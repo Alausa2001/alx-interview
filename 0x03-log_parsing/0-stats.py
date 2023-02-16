@@ -1,57 +1,40 @@
 #!/usr/bin/python3
 """
-script that reads stdin line by line and computes metrics:
-
-    Input format:
-    <IP Address> - [<date>] "GET /projects/260 HTTP/1.1" <status code>
-    <file size>
-
-    (if the format is not this one, the line must be skipped)
-    After every 10 lines and/or a keyboard interruption (CTRL + C),
-    print these statistics from the beginning:
-        Total file size: File size: <total size>
-        where <total size> is the sum of all previous <file size>
-        (see input format above)
-        Number of lines by status code:
-            possible status code: 200, 301, 400, 401, 403, 404, 405 and 500
-            if a status code doesn’t appear or is not an integer,
-            don’t print anything for this status code
-            format: <status code>: <number>
-            status codes should be printed in ascending order
+Log parsing
 """
+
 import sys
-import re
 
+if __name__ == '__main__':
 
-def log_parsing():
-    """gets infomation from logs"""
-    codes = ['200', '301', '400', '401', '403', '404', '405', '500']
-    status_count = {status: 0 for status in codes}
-    file_size = 0
-    count = 0
-    try:
-        for line in sys.stdin:
-            count += 1
-            search = re.search('GET .* (.*) (.*)', line)
-            status = search.group(1)
-            size = int(search.group(2))
-            if status in status_count.keys():
-                status_count[status] += 1
-                file_size += size
-            if count == 10:
-                count = 0
-                print("File_size: {}".format(file_size))
-                for key, val in sorted(status_count.items()):
-                    if val != 0:
-                        print("{}: {}".format(key, val))
-    except KeyboardInterrupt:
-        pass
-    finally:
-        print("File size: {}".format(file_size))
-        for key, val in sorted(status_count.items()):
+    filesize, count = 0, 0
+    status_codes = ["200", "301", "400", "401", "403", "404", "405", "500"]
+    status_count = {status: 0 for status in status_codes}
+
+    def print_stats(stats, file_size):
+        print("File size: {:d}".format(filesize))
+        for key, val in sorted(stats.items()):
             if val != 0:
                 print("{}: {}".format(key, val))
 
-
-if __name__ == "__main__":
-    log_parsing()
+    try:
+        for line in sys.stdin:
+            count += 1
+            data = line.split()
+            try:
+                status_code = data[-2]
+                if status_code in status_codes:
+                    status_count[status_code] += 1
+            except BaseException:
+                pass
+            try:
+                filesize += int(data[-1])
+            except BaseException:
+                pass
+            if count == 10:
+                count = 0
+                print_stats(status_count, filesize)
+        print_stats(status_count, filesize)
+    except KeyboardInterrupt:
+        print_stats(status_count, filesize)
+        raise

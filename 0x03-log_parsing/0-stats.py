@@ -32,8 +32,9 @@ def log_parsing():
     try:
         for line in sys.stdin:
             line = line.split()
-            status = line[-2]
-            size = line[-1]
+            if len(line) > 4:
+                status = line[-2]
+                size = line[-1]
             if status in status_count.keys():
                 status_count[status] += 1
                 file_size.append(int(size))

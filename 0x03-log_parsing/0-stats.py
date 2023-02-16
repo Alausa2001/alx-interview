@@ -20,9 +20,6 @@ script that reads stdin line by line and computes metrics:
             status codes should be printed in ascending order
 """
 import sys
-
-
-import sys
 import re
 
 

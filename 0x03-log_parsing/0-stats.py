@@ -24,18 +24,18 @@ def log_parsing():
                     file_size += int(search.group(2))
                 if count == 10:
                     count = 0
-                    print("File_size: {}".format(file_size))
+                    print("File size: {}".format(file_size))
                     for key, val in status_count.items():
                         if val != 0:
                             print("{}: {}".format(key, val))
     except KeyboardInterrupt:
-        print("File_size: {}".format(file_size))
+        print("File size: {}".format(file_size))
         for key, val in status_count.items():
             if val != 0:
                 print("{}: {}".format(key, val))
 
     finally:
-        print("File_size: {}".format(file_size))
+        print("File size: {}".format(file_size))
         for key, val in status_count.items():
             if val != 0:
                 print("{}: {}".format(key, val))

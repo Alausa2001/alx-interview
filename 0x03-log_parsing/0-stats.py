@@ -1,45 +1,40 @@
 #!/usr/bin/python3
 """
-log parsing
+Log parsing
 """
+
 import sys
-import re
 
+if __name__ == '__main__':
 
-def log_parsing():
-    """gets infomation from logs"""
-    codes = ['200', '301', '400', '401', '403', '404', '405', '500']
-    status_count = {status: 0 for status in codes}
-    file_size = 0
-    count = 0
-    status = None
+    filesize, count = 0, 0
+    status_codes = ["200", "301", "400", "401", "403", "404", "405", "500"]
+    status_count = {k: 0 for k in status_codes}
+
+    def print_stats(stats, file_size):
+        print("File size: {:d}".format(filesize))
+        for key, val in sorted(stats.items()):
+            if val:
+                print("{}: {}".format(key, val))
+
     try:
         for line in sys.stdin:
             count += 1
-            search = re.search('GET .* (.*) (.*)', line)
-            if search is not None:
-                status = search.group(1)
-                if status in status_count.keys():
-                    status_count[status] += 1
-                    file_size += int(search.group(2))
-                if count == 10:
-                    count = 0
-                    print("File_size: {}".format(file_size))
-                    for key, val in status_count.items():
-                        if val != 0:
-                            print("{}: {}".format(key, val))
+            data = line.split()
+            try:
+                status_code = data[-2]
+                if status_code in status_codes:
+                    status_count[status_code] += 1
+            except BaseException:
+                pass
+            try:
+                filesize += int(data[-1])
+            except BaseException:
+                pass
+            if count == 10:
+                count = 0
+                print_stats(status_count, filesize)
+        print_stats(status_count, filesize)
     except KeyboardInterrupt:
-        print("File_size: {}".format(file_size))
-        for key, val in status_count.items():
-            if val != 0:
-                print("{}: {}".format(key, val))
-
-    finally:
-        print("File_size: {}".format(file_size))
-        for key, val in status_count.items():
-            if val != 0:
-                print("{}: {}".format(key, val))
-
-
-if __name__ == "__main__":
-    log_parsing()
+        print_stats(status_count, filesize)
+        raise

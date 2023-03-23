@@ -16,8 +16,9 @@ def makeChange(coins, total):
 
     for coin in coins:
         for fewest in range(coin, total + 1):
-            amt[fewest] = min(amt[fewest], amt[fewest - coin] + 1)
-            # amt[fewest] += 1
+            if amt[fewest - coin] != float('inf'):
+                amt[fewest] = min(amt[fewest], amt[fewest - coin] + 1)
+                # amt[fewest] += 1
     if amt[total] != float('inf'):
         return amt[total]
     return - 1

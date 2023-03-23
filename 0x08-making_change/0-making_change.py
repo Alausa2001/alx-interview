@@ -5,20 +5,27 @@ fewest number of coins needed to meet a given amount total.
 """
 
 
-def makeChange(coins, total):
+def makeChange(coins: list, total: int) -> int:
     """
     Get the no if minimum combination
     """
     if total <= 0:
         return 0
-    amt = [float('inf')] * (total + 1)
-    amt[0] = 0
+    fewest = 0
+    target = 0
+    current = 0
+    rev_coins = sorted(coins, reverse=True)
+    coin_index = 0
+    length = len(rev_coins)
 
-    for coin in coins:
-        for fewest in range(coin, total + 1):
-            if amt[fewest - coin] != float('inf'):
-                amt[fewest] = min(amt[fewest], amt[fewest - coin] + 1)
-                # amt[fewest] += 1
-    if amt[total] != float('inf'):
-        return amt[total]
-    return - 1
+    while (target < total) and (coin_index < length):
+        target = current + rev_coins[coin_index]
+        if target < total:
+            fewest += 1
+            current = target
+        elif target > total:
+            target -= rev_coins[coin_index]
+            coin_index += 1
+        elif target == total:
+            return fewest + 1
+    return -1

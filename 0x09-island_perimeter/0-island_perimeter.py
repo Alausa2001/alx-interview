@@ -26,28 +26,15 @@ def island_perimeter(grid):
     (water inside that isn’t connected to the water surrounding the island).
     """
 
-    index = []
+    perimeter = 0
 
-    hor = []
-    ver = [0] * len(grid[0])
-    for i in range(len(grid)):
-        idx = []
-        hor_c = 0
-        for j in range(len(grid[i])):
-            if grid[i][j] == 1:
-                ver[j] += 1
-            if j < len(grid[i]) - 1:
-                if grid[i][j] == 1 and grid[i][j+1] == 1:
-                    hor_c += 1
-                elif grid[i][j] == 0:
-                    idx.append(j)
-                else:
-                    if hor_c != 0:
-                        hor.append(hor_c+1)
-                    hor_c = 0
-        index.append(idx)
-        if hor_c != 0:
-            hor.append(hor_c+1)
-            idx.append(j)
-    if index.index((min(index, key=len))) <= max(ver):
-        return 2 * (max(hor) + max(ver))
+    for row in range(len(grid)):
+        for j in range(len(grid[row])):
+            if grid[row][j] == 1:
+                perimeter += 4
+
+                if row > 0 and grid[row-1][j] == 1:
+                    perimeter -= 2
+                if j > 0 and grid[row][j - 1] == 1:
+                    perimeter -= 2
+    return perimeter
